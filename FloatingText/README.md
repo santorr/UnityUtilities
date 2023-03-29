@@ -6,6 +6,8 @@ This script allow you to integrate a floating text in screen space using object 
 
 # Usage
 
+![alt text](./img/img_floating_text_component.JPG)
+
   1. Put the script on your main canvas
   2. Setup component with desired values
   3. Call the method 'CreateFloatingText' using the instance of this class
