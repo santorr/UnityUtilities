@@ -10,7 +10,7 @@ This script (Singleton) allow you to integrate a floating text in screen space u
 
 # Usage
 
-![alt text](./img/img_floating_text_component.JPG)
+![alt text](./img/img_floating_text_components.JPG)
 
   1. Put the script on your main canvas
   2. Setup component with desired values
