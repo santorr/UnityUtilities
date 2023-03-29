@@ -16,4 +16,4 @@ This script (Singleton) allow you to integrate a floating text in screen space u
   2. Setup component with desired values
   3. Call the method 'CreateFloatingText' using the instance of this class
 
-eg : FloatingText.Instance.CreateFloatingText(worldPosition, text, fontMultiplier, color);
+eg : FloatingText.Instance.CreateFloatingText(worldPosition, text, presetName);
