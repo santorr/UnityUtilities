@@ -1,6 +1,6 @@
 # Floating text
 
-This script allow you to integrate a floating text in screen space using object pool to maximize performance.
+This script (Singleton) allow you to integrate a floating text in screen space using object pool to maximize performance.
 
 ![alt text](./img/img_floating_text.JPG)
 
