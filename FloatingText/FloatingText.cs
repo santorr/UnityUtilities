@@ -4,7 +4,23 @@ using UnityEngine.Pool;
 using TMPro;
 using System.Collections.Generic;
 
-public enum EFloatingTextColor { White, Orange, Green }
+/// <summary>
+/// Floating text preset that contains : name, color, font size.
+/// </summary>
+[System.Serializable]
+public class FloatingTextPreset
+{
+    public string Name = "New color";
+    public Color Color = Color.white;
+    public int FontSize = 30;
+
+    public FloatingTextPreset(string name, Color color, int fontSize)
+    {
+        Name = name;
+        Color = color;
+        FontSize = fontSize;
+    }
+}
 
 /// <summary>
 /// Attach this script to the main canvas gameobject.
@@ -20,19 +36,14 @@ public class FloatingText : MonoBehaviour
     [SerializeField] private float _duration = 0.5f;
     [SerializeField] private AnimationCurve _sizeOverTime;
     [Header("Font")]
-    [SerializeField] private int _fontSize = 30;
     [SerializeField] private FontStyles _fontStyle;
     [SerializeField] private float _outlineWidth = 0.15f;
     [SerializeField] private TMP_FontAsset _fontAsset;
-    
+    [SerializeField] private List<FloatingTextPreset> _presetsList = new List<FloatingTextPreset>();
+
+    private Dictionary<string, FloatingTextPreset> _presets = new Dictionary<string, FloatingTextPreset>();
     private Transform _floatingTextContainer;
     private ObjectPool<TextMeshProUGUI> _floatinTextPool;
-    private Dictionary<EFloatingTextColor, Color> _floatingColor = new Dictionary<EFloatingTextColor, Color>()
-    {
-        { EFloatingTextColor.White, Color.white },
-        { EFloatingTextColor.Orange, Color.yellow },
-        { EFloatingTextColor.Green, Color.green }
-    };
 
     private void Awake()
     {
@@ -44,6 +55,8 @@ public class FloatingText : MonoBehaviour
         {
             Instance = this;
         }
+
+        ConvertPresetsListToDictionnary();
     }
 
     private void Start()
@@ -67,18 +80,19 @@ public class FloatingText : MonoBehaviour
         }
     }
 
-    public void CreateFloatingText(Vector3 worldPosition, string text, float fontMultiplier = 1f, EFloatingTextColor color = EFloatingTextColor.White)
+    public void CreateFloatingText(Vector3 worldPosition, string text, string presetName = null)
     {
-        StartCoroutine(SpawnFloatingText(worldPosition, text, fontMultiplier, color));
+        StartCoroutine(SpawnFloatingText(worldPosition, text, presetName));
     }
 
-    private IEnumerator SpawnFloatingText(Vector3 worldPosition, string text, float fontMultiplier, EFloatingTextColor color)
+    private IEnumerator SpawnFloatingText(Vector3 worldPosition, string text, string presetName)
     {
         TextMeshProUGUI instance = _floatinTextPool.Get();
+        FloatingTextPreset preset = GetPreset(presetName);
 
         instance.SetText(text);
-        instance.fontSize = _fontSize * fontMultiplier;
-        instance.color = _floatingColor[color];
+        instance.fontSize = preset.FontSize;
+        instance.color = preset.Color;
         instance.transform.position = Camera.main.WorldToScreenPoint(worldPosition);
         instance.gameObject.SetActive(true);
 
@@ -107,9 +121,29 @@ public class FloatingText : MonoBehaviour
         TextMeshProUGUI textComponent = instance.AddComponent<TextMeshProUGUI>();
         if (_fontAsset != null) { textComponent.font = _fontAsset; }
         textComponent.outlineWidth = _outlineWidth;
-        textComponent.fontSize = _fontSize;
         textComponent.fontStyle = _fontStyle;
         textComponent.alignment = TextAlignmentOptions.Center;
         return textComponent;
+    }
+
+    private FloatingTextPreset GetPreset(string presetName)
+    {
+        if (presetName == null || !_presets.ContainsKey(presetName))
+        {
+            return _presets["_default"];
+        }
+        else
+        {
+            return _presets[presetName];
+        }
+    }
+
+    private void ConvertPresetsListToDictionnary()
+    {
+        for (int i = 0; i < _presetsList.Count; i++)
+        {
+            _presets.Add(_presetsList[i].Name, _presetsList[i]);
+        }
+        _presets.Add("_default", new FloatingTextPreset(name: "_default", color: Color.white, fontSize: 30));
     }
 }
