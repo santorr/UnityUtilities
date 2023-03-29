@@ -17,3 +17,5 @@ This script (Singleton) allow you to integrate a floating text in screen space u
   3. Call the method 'CreateFloatingText' using the instance of this class
 
 eg : FloatingText.Instance.CreateFloatingText(worldPosition, text, presetName);
+
+If you want to add 'Outline', 'Glow' ... you can edit the materiel in the 'TMP_Font Asset' from your content.
