@@ -37,7 +37,6 @@ public class FloatingText : MonoBehaviour
     [SerializeField] private AnimationCurve _sizeOverTime;
     [Header("Font")]
     [SerializeField] private FontStyles _fontStyle;
-    [SerializeField] private float _outlineWidth = 0.15f;
     [SerializeField] private TMP_FontAsset _fontAsset;
     [SerializeField] private List<FloatingTextPreset> _presetsList = new List<FloatingTextPreset>();
 
@@ -120,7 +119,6 @@ public class FloatingText : MonoBehaviour
         instance.transform.parent = _floatingTextContainer;
         TextMeshProUGUI textComponent = instance.AddComponent<TextMeshProUGUI>();
         if (_fontAsset != null) { textComponent.font = _fontAsset; }
-        textComponent.outlineWidth = _outlineWidth;
         textComponent.fontStyle = _fontStyle;
         textComponent.alignment = TextAlignmentOptions.Center;
         return textComponent;
