@@ -4,6 +4,10 @@ This script allow you to integrate a floating text in screen space using object 
 
 ![alt text](./img/img_floating_text.JPG)
 
+# Requirement
+
+- Text mesh pro
+
 # Usage
 
 ![alt text](./img/img_floating_text_component.JPG)
