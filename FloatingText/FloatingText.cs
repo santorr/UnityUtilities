@@ -60,22 +60,18 @@ public class FloatingText : MonoBehaviour
 
     private void Start()
     {
-        _floatingTextContainer = GetFloatingTextContainer();
+        SetFloatingTextContainer();
         _floatinTextPool = new ObjectPool<TextMeshProUGUI>(CreateFloatingTextObject);
     }
 
-    private Transform GetFloatingTextContainer()
+    private void SetFloatingTextContainer()
     {
         if (_floatingTextContainer == null)
         {
             GameObject container = new GameObject("FloatingTextContainer");
             container.transform.parent = transform;
             container.transform.localPosition = Vector3.zero;
-            return container.transform;
-        }
-        else
-        {
-            return _floatingTextContainer;
+            _floatingTextContainer = container.transform;
         }
     }
 
