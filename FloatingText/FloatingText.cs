@@ -43,6 +43,7 @@ public class FloatingText : MonoBehaviour
     private Dictionary<string, FloatingTextPreset> _presets = new Dictionary<string, FloatingTextPreset>();
     private Transform _floatingTextContainer;
     private ObjectPool<TextMeshProUGUI> _floatinTextPool;
+    private Camera _camera;
 
     private void Awake()
     {
@@ -60,6 +61,7 @@ public class FloatingText : MonoBehaviour
 
     private void Start()
     {
+        _camera = Camera.main;
         SetFloatingTextContainer();
         _floatinTextPool = new ObjectPool<TextMeshProUGUI>(CreateFloatingTextObject);
     }
@@ -88,7 +90,7 @@ public class FloatingText : MonoBehaviour
         instance.SetText(text);
         instance.fontSize = preset.FontSize;
         instance.color = preset.Color;
-        instance.transform.position = Camera.main.WorldToScreenPoint(worldPosition);
+        instance.transform.position = _camera.WorldToScreenPoint(worldPosition);
         instance.gameObject.SetActive(true);
 
         yield return null;
@@ -96,7 +98,7 @@ public class FloatingText : MonoBehaviour
         float time = 0f;
         while (time < _duration)
         {
-            instance.transform.position = Camera.main.WorldToScreenPoint(worldPosition);
+            instance.transform.position = _camera.WorldToScreenPoint(worldPosition);
             float scale = _sizeOverTime.Evaluate(time/_duration);
             instance.transform.localScale = new Vector3(scale, scale, scale);
             time += Time.deltaTime;
